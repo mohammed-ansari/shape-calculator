@@ -1,0 +1,229 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="step-1.html">
+<link rel="import" href="step-2.html">
+<link rel="import" href="step-3.html">
+
+
+<dom-module id="shape-calculator-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .container {
+        padding: 20px;
+        margin: 0;
+      }
+
+      .container>div {
+        padding: 15px;
+        margin: 25px;
+        min-height: 400px;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply --layout-horizontal;
+      }
+
+      .flexchild {
+        @apply --layout-flex;
+        background-color: rgba(39, 38, 38, 0.699);
+
+      }
+
+      .flex2child {
+        @apply --layout-flex-2;
+        border: 1px solid black;
+        border-radius: 8px;
+      }
+
+      .flex3child {
+        @apply --layout-flex-3;
+      }
+
+      .header {
+        background-image: url("images/header_bg.gif");
+        height: 100px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        margin-left: 20px;
+        margin-right: 20px;
+        border: 1.5px solid #000;
+        margin-top: 10px
+      }
+
+      .title {
+        font-family: sans-serif;
+        padding: 30px;
+        font-size: 30px;
+      }
+
+      .text-font {
+        font-family: sans-serif;
+      }
+
+      .sub-title {
+        font-size: 1.5em
+      }
+
+      .ad-style {
+        margin-top: 100%;
+        color: white
+      }
+
+      .buttons {
+        margin-top: 20px;
+        position: fixed;
+        bottom: 200px;
+      }
+    </style>
+
+    <div class="header">
+      <div class="title">{{title}}</div>
+    </div>
+
+    <div class="container flex-horizontal-with-ratios text-font">
+      <div class="flex3child">
+        <p class="sub-title">Welcome to Shape Calculator</p>
+        <p>
+          <b>Shape Calculator is an interactive web application. To the right you will find the 3 step application. Follow the
+            instructions in each step. Clicking cancel will take you back to step 1. Enjoy!</b>
+        </p>
+        <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic
+          country, in which roasted parts of sentences fly into your mouth.</p>
+        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however
+          a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox
+          advised her not to do so, because there were thousands of bad Commas.
+        </p>
+      </div>
+      <div class="flex2child">
+        <iron-pages id="ironpages" selected="0">
+          <step-1 id="step1" shapevalue="{{shapevalue}}"></step-1>
+          <step-2 id="step2" shapevalue="{{shapevalue}}" area="{{area}}" width="{{width}}" height="{{height}}" diameter="{{diameter}}"></step-2>
+          <step-3 id="step3" shapevalue="{{shapevalue}}" area="{{area}}" width="{{width}}" height="{{height}}" diameter="{{diameter}}"></step-3>
+        </iron-pages>
+        <div class="buttons">
+          <paper-button id="next" on-tap="nextPage" raised>{{buttonText}}</paper-button>
+          <template is="dom-if" if="{{cancelButton}}">
+            <a href="javascript:void(0)" on-click="changePageToStep1">or Cancel</a>
+          </template>
+        </div>
+
+        <!-- <step-1></step-1>
+        <step-2></step-2>
+        <step-3></step-3> -->
+      </div>
+      <div class="flexchild">
+        <center class="ad-style">120 x 240 Ad
+          <br> (Vertical Banner)</center>
+      </div>
+    </div>
+
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class ShapeCalculatorApp extends Polymer.Element {
+      static get is() { return 'shape-calculator-app'; }
+
+      static get properties() {
+        return {
+          title: {
+            type: String,
+            value: 'Shape Calculator'
+          },
+          page: {
+            type: String,
+            value: 0,
+            observer: 'changeButtonText'
+          },
+          buttonText: {
+            type: String
+          },
+          cancelButton: {
+            type: Boolean,
+            value: true
+          },
+          shapevalue: {
+            type: String
+          },
+          area: {
+            type: Number
+          },
+          width: {
+            type: Number
+          },
+          height: {
+            type: Number
+          },
+          diameter: {
+            type: Number
+          }
+        };
+      }
+
+      changeButtonText() {
+        if (this.page == "0") {
+          this.buttonText = "Go to step 2";
+          this.cancelButton = true;
+        } else if (this.page == "1") {
+          this.buttonText = "Go to step 3";
+          this.cancelButton = true;
+        } else if (this.page == "2") {
+          this.buttonText = "Start over";
+          this.cancelButton = false;
+        }
+      }
+
+      _displayCancelButton() {
+        if (this.page == "0" || this.page == "1") {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      nextPage() {
+        var pages = this.$.ironpages;
+        if (pages.selected == 0) {
+          this.clearParameters();
+          this.$.step1.submit()
+        } else if (pages.selected == 1) {
+          this.$.step2.calculateArea()
+        }
+
+        pages.selectNext();
+        this.page = pages.selected;
+
+      }
+
+      changePageToStep1() {
+        var pages = this.$.ironpages;
+        pages.selected = 0;
+        this.page = 0;
+        this.clearParameters();
+      }
+
+      clearParameters(){
+        this.setProperties({
+          width: null,
+          height: null,
+          diameter: null
+        })
+      }
+    }
+
+    window.customElements.define(ShapeCalculatorApp.is, ShapeCalculatorApp);
+  </script>
+</dom-module>

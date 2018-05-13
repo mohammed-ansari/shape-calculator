@@ -1,0 +1,85 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+
+
+<dom-module id="step-3">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .sub-title {
+        font-size: 1.5em
+      }
+
+      .text-font {
+        font-family: sans-serif;
+      }
+    </style>
+    <div class="text-font">
+      <p class="sub-title">Step 3: Your results</p>
+    </div>
+
+    <template is="dom-if" if="{{_isEqualTo(shapevalue, 'rectangle')}}">
+        You have calculated the area of a rectangle
+        with width of [[width]] and height of [[height]]. Below is your result:
+    </template>
+    <template is="dom-if" if="{{_isEqualTo(shapevalue, 'circle')}}">
+        You have calculated the area of a circle
+        with a diameter of [[diameter]]. Below is your result:
+    </template>
+    <template is="dom-if" if="{{_isEqualTo(shapevalue, 'square')}}">
+        You have calculated the area of a square
+        with a width of [[width]]. Below is your result:
+    </template>
+    <template is="dom-if" if="{{_isEqualTo(shapevalue, 'ellipse')}}">
+        You have calculated the area of an ellipse
+        with width of [[width]] and height of [[height]]. Below is your result:
+    </template>
+
+    <div class="text-font">
+      <p class="sub-title" style="text-align: center">The Area is {{area}}</p>
+    </div>
+
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class Step3 extends Polymer.Element {
+      static get is() { return 'step-3'; }
+      static get properties() {
+        return {
+          shapevalue: {
+            type: String,
+            notify: true
+          },
+          area: {
+            type: Number,
+            notify: true
+          },
+          width: {
+            type: Number
+          },
+          height: {
+            type: Number
+          },
+          diameter: {
+            type: Number
+          }
+        };
+      }
+
+
+      _isEqualTo(value, string) {
+        return value == string;
+      }
+    }
+
+    window.customElements.define(Step3.is, Step3);
+  </script>
+</dom-module>

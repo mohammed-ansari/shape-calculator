@@ -1,0 +1,7 @@
+{
+  "name": "shape-calculator",
+  "short_name": "shape-calculator",
+  "description": "calculates area of different shapes",
+  "start_url": "/",
+  "display": "standalone"
+}

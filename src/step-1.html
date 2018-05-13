@@ -1,0 +1,62 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+
+
+
+<dom-module id="step-1">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            .sub-title {
+                font-size: 1.5em
+            }
+
+            .text-font {
+                font-family: sans-serif;
+            }
+        </style>
+        <label id="arealabel" class="text-font">
+            <p class="sub-title"> Step 1: Select your shape</p>
+            Please select the shape that you would like to calculate the area of and press the button "Go to step 2"
+        </label>
+        <paper-radio-group id="shapes" selected="rectangle" aria-labelledby="arealabel">
+            <paper-radio-button name="rectangle">Rectangle</paper-radio-button>
+            <br>
+            <paper-radio-button name="circle">Circle</paper-radio-button>
+            <br>
+            <paper-radio-button name="square">Square</paper-radio-button>
+            <br>
+            <paper-radio-button name="ellipse">Ellipse</paper-radio-button>
+        </paper-radio-group>
+
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class Step1 extends Polymer.Element {
+            static get is() { return 'step-1'; }
+            static get properties() {
+                return {
+                    shapevalue: {
+                        type: String,
+                        notify: true
+                    }
+                };
+            }
+
+            submit() {
+                this.shapevalue = this.$.shapes.selected;
+            }
+        }
+
+        window.customElements.define(Step1.is, Step1);
+    </script>
+</dom-module>

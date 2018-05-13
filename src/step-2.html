@@ -1,0 +1,98 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+
+
+
+<dom-module id="step-2">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .sub-title {
+        font-size: 1.5em
+      }
+
+      .text-font {
+        font-family: sans-serif;
+      }
+    </style>
+
+    <div class="text-font">
+      <p class="sub-title"> Step 2: Insert your values</p>
+      You have selected a {{shapevalue}}, please input the required variables.
+    </div>
+
+    <template is="dom-if" if="{{_isEqualTo(shapevalue, 'rectangle')}}">
+      <paper-input type="text" id="width" value="{{width}}" required label="Width"></paper-input>
+      <paper-input type="text" id="height" value="{{height}}" required label="Height"></paper-input>
+    </template>
+    <template is="dom-if" if="{{_isEqualTo(shapevalue, 'circle')}}">
+      <paper-input type="text" id="width" value="{{diameter}}" required label="Diameter"></paper-input>
+    </template>
+    <template is="dom-if" if="{{_isEqualTo(shapevalue, 'square')}}">
+      <paper-input type="text" id="width" value="{{width}}" required label="Width"></paper-input>
+    </template>
+    <template is="dom-if" if="{{_isEqualTo(shapevalue, 'ellipse')}}">
+      <paper-input type="text" id="width" value="{{width}}" required label="Width"></paper-input>
+      <paper-input type="text" id="height" value="{{height}}" required label="Height"></paper-input>
+    </template>
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class Step2 extends Polymer.Element {
+      static get is() { return 'step-2'; }
+      static get properties() {
+        return {
+          shapevalue: {
+            type: String,
+            notify: true
+          },
+          area: {
+            type: Number,
+            notify: true
+          },
+          width: {
+            type: Number,
+            notify: true
+          },
+          height: {
+            type: Number,
+            notify: true
+          },
+          diameter: {
+            type: Number,
+            notify: true
+          }
+        };
+      }
+
+      calculateArea() {
+        if (this.shapevalue == 'rectangle') {
+          this.area = this.width * this.height;
+        } else if (this.shapevalue == 'circle') {
+          this.area = (this.diameter / 2) * Math.PI;
+        } else if (this.shapevalue == 'square') {
+          this.area = this.width * this.width;
+        } else if (this.shapevalue == 'ellipse') {
+          this.area = this.width * this.height * Math.PI;
+        }
+      }
+
+      _isEqualTo(value, string) {
+        return value == string;
+      }
+    }
+
+    window.customElements.define(Step2.is, Step2);
+  </script>
+</dom-module>
