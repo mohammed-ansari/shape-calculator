@@ -1,12 +1,21 @@
 # \<shape-calculator\>
 
-calculates area of different shapes
+A web application which calculates area of different shapes
 
-## Install the Polymer-CLI
+## Install the Polymer-CLI and Bower
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
+First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and [Bower](https://bower.io/) installed. Then run `polymer serve` to serve your application locally.
 
+## Install all dependencies
+
+This will install all dependencies required by project
+
+```
+$ polymer install
+```
 ## Viewing Your Application
+
+This will run your application locally at url: http://127.0.0.1:8081/components/shape-calculator/
 
 ```
 $ polymer serve
